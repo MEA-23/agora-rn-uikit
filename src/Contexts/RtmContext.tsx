@@ -1,11 +1,12 @@
-import RtmClient from 'agora-react-native-rtm';
-import {RtmClientEvents} from 'agora-react-native-rtm/src/RtmEngine';
-import React, {createContext} from 'react';
+import React, { createContext } from "react";
 
 /**
- * Callbacks to pass to RTM events
+ * Callbacks to pass to RTM events (lightweight placeholder)
+ * We intentionally avoid depending on agora-react-native-rtm here so the
+ * UI Kit can be used without the RTM SDK. Consumers that still use RTM may
+ * provide an object of event handlers keyed by event name.
  */
-export type rtmCallbacks = Partial<RtmClientEvents>;
+export type rtmCallbacks = Record<string, any>;
 
 export enum rtmStatusEnum {
   // Initialisation failed
@@ -24,7 +25,7 @@ export enum rtmStatusEnum {
   loginFailed,
 }
 
-export type messageType = 'UserData' | 'MuteRequest';
+export type messageType = "UserData" | "MuteRequest";
 
 export type messageObjectType = userDataType | muteRequest | genericAction;
 
@@ -39,12 +40,12 @@ export enum mutingDevice {
 }
 
 export type genericAction = {
-  messageType: 'RtmDataRequest';
-  type: 'ping' | 'pong' | 'userData';
+  messageType: "RtmDataRequest";
+  type: "ping" | "pong" | "userData";
 };
 
 export type muteRequest = {
-  messageType: 'MuteRequest';
+  messageType: "MuteRequest";
   rtcId: number;
   mute: boolean;
   device: mutingDevice;
@@ -52,7 +53,7 @@ export type muteRequest = {
 };
 
 export type userDataType = {
-  messageType: 'UserData';
+  messageType: "UserData";
   rtmId: string;
   rtcId: number;
   username?: string;
@@ -95,9 +96,9 @@ interface rtmContext {
    */
   sendPeerMessage: (msg: messageObjectType, uid: string) => void;
   /**
-   * RTM Client instance
+   * RTM Client instance (opaque, kept as any to avoid hard dependency)
    */
-  rtmClient: RtmClient;
+  rtmClient: any;
   /**
    * map with userdata for each rtc uid in the channel
    */

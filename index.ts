@@ -1,15 +1,19 @@
 /**
  * @module Agora UIKit
  */
-import AgoraUIKit from './src/AgoraUIKit';
+import AgoraUIKit from "./src/AgoraUIKit";
 export {
   StreamFallbackOptions,
   RenderModeType,
   ChannelProfileType,
   ClientRoleType,
-} from 'react-native-agora';
-export {Layout, DualStreamMode, ToggleState} from './src/Contexts/PropsContext';
-export {default as icons} from './src/Controls/Icons';
+} from "react-native-agora";
+export {
+  Layout,
+  DualStreamMode,
+  ToggleState,
+} from "./src/Contexts/PropsContext";
+export { default as icons } from "./src/Controls/Icons";
 export type {
   IconsInterface,
   UidInterface,
@@ -18,7 +22,6 @@ export type {
   Settings,
   StylePropInterface,
   rtcCallbacks,
-} from './src/Contexts/PropsContext';
-export type {rtmCallbacks} from './src/Contexts/RtmContext';
+} from "./src/Contexts/PropsContext";
 
 export default AgoraUIKit;

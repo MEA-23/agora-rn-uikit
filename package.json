@@ -28,7 +28,6 @@
     "url": "https://github.com/AgoraIO-Community/ReactNative-UIKit/issues"
   },
   "peerDependencies": {
-    "agora-react-native-rtm": "^1.5.1",
     "react": "*",
     "react-native": ">=0.62.2",
     "react-native-agora": "^4.1.0"
