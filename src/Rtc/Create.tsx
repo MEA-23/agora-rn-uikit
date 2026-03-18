@@ -32,7 +32,7 @@ const Create: React.FC<{
   useEffect(() => {
     // using == instead of === for web compatibility: strings vs. numbers in the enum
     async function init() {
-      if (Platform.OS === 'android') {
+      if (Platform.OS === 'android' && rtcProps.role !== ClientRoleType.ClientRoleAudience) {
         //Request required permissions from Android
         await requestCameraAndAudioPermission();
       }
