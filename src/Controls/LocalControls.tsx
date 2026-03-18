@@ -4,7 +4,7 @@ import styles from '../Style';
 import EndCall from './Local/EndCall';
 import LocalAudioMute from './Local/LocalAudioMute';
 import LocalVideoMute from './Local/LocalVideoMute';
-// import LocalSpeakerToggle from './Local/LocalSpeakerToggle';
+import LocalSpeakerToggle from './Local/LocalSpeakerToggle';
 import SwitchCamera from './Local/SwitchCamera';
 import RemoteControls from './RemoteControls';
 import {MaxUidConsumer} from '../Contexts/MaxUidContext';
@@ -27,7 +27,7 @@ const Controls: React.FC<ControlsPropsInterface> = props => {
             <LocalAudioMute />
             {rtcProps.enableVideoOnHost === false ? (
               <>
-                {/* <LocalSpeakerToggle /> */}
+                <LocalSpeakerToggle />
               </>
             ) : (
               <>
