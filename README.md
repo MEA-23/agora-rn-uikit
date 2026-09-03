@@ -1,6 +1,6 @@
 # react-native-agora-uikit
 
-A maintained fork of [`agora-rn-uikit`](https://www.npmjs.com/package/agora-rn-uikit), whose last release was **5.0.2 on 2023-12-04**.
+A fork of [`agora-rn-uikit`](https://www.npmjs.com/package/agora-rn-uikit) (last release **5.0.2, 2023-12-04**), updated to work with current `react-native-agora`.
 
 Drop-in video *and* audio calling for React Native, with built-in UI. Adds audio-only call mode, speaker/earpiece routing, scoped Android runtime permissions, and support for modern `react-native-agora` (including Android 16 KB page-size aligned native libraries).
 
@@ -10,7 +10,7 @@ Drop-in video *and* audio calling for React Native, with built-in UI. Adds audio
 
 | | `agora-rn-uikit@5.0.2` | `react-native-agora-uikit` |
 |---|---|---|
-| Last release | Dec 2023 | actively maintained |
+| Last release | 5.0.2, Dec 2023 | 6.0.0, 2026 |
 | `react-native-agora` peer | `^4.1.0` | `>=4.5.2` |
 | Android 16 KB page size | ✗ (pre-4.5.2 native libs) | ✓ via `react-native-agora >= 4.5.2` |
 | Audio-only call mode | ✗ | ✓ `enableVideoOnHost: false` |
