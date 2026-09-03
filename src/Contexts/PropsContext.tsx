@@ -305,6 +305,9 @@ export interface RtmSettings {
 export interface RtcPropsInterface extends RtcSettings, RtcConnectionData {}
 /**
  * Props object for RTM SDK
+ *
+ * @deprecated RTM is not implemented in this fork; the signalling layer is a
+ * no-op stub. Retained so v5 call sites still typecheck.
  */
 export interface RtmPropsInterface extends RtmSettings, RtmConnectionData {}
 
@@ -402,7 +405,10 @@ export interface AgoraUIKitProps {
    */
   rtcCallbacks?: rtcCallbacks;
   /**
-   * Callbacks for the signalling layer
+   * Callbacks for the signalling layer.
+   *
+   * @deprecated RTM is not implemented in this fork; the signalling layer is
+   * stubbed out, so these callbacks are never invoked.
    */
   rtmCallbacks?: rtmCallbacks;
 }
@@ -410,9 +416,17 @@ export interface AgoraUIKitProps {
 export type rtcCallbacks = Partial<CallbacksInterface>;
 export interface PropsInterface {
   rtcProps: RtcPropsInterface;
+  /**
+   * @deprecated RTM is not implemented in this fork. This prop is accepted for
+   * source compatibility with agora-rn-uikit v5 but has no effect.
+   */
   rtmProps?: RtmPropsInterface;
   styleProps?: Partial<StylePropInterface>;
   callbacks?: Partial<CallbacksInterface>;
+  /**
+   * @deprecated RTM is not implemented in this fork. These callbacks are never
+   * invoked.
+   */
   rtmCallbacks?: rtmCallbacks;
 }
 

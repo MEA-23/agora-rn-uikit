@@ -8,7 +8,7 @@ import BtnTemplate from '../BtnTemplate';
 import styles from '../../Style';
 import {LocalContext} from '../../Contexts/LocalUserContext';
 import {DispatchType} from '../../Contexts/RtcContext';
-import {IRtcEngine, RtcTextureView} from 'react-native-agora';
+import {IRtcEngine} from 'react-native-agora';
 interface LocalSpeakerToggleProps {
   btnText?: string;
   variant?: 'outlined' | 'text';

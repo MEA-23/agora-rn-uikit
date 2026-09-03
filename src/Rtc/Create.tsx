@@ -34,13 +34,12 @@ const Create: React.FC<{
     async function init() {
       if (Platform.OS === 'android' && rtcProps.role !== ClientRoleType.ClientRoleAudience) {
         //Request required permissions from Android
-        await requestCameraAndAudioPermission();
+        await requestCameraAndAudioPermission(
+          rtcProps.enableVideoOnHost !== false,
+        );
       }
       try {
-        console.log('hello');
         engine.current = createAgoraRtcEngine();
-        console.log('hello2');
-        console.log(engine.current);
         if (Platform.OS === 'android' || Platform.OS === 'ios') {
           engine.current.initialize({
             appId: rtcProps.appId,

@@ -1,46 +1,62 @@
-# Agora VideoUIKit for React Native
+# react-native-agora-uikit
 
-Instantly integrate Agora video calling or streaming into your React Native application.
+A maintained fork of [`agora-rn-uikit`](https://www.npmjs.com/package/agora-rn-uikit), whose last release was **5.0.2 on 2023-12-04**.
 
-![img](UI%20Kit.png)
+Drop-in video *and* audio calling for React Native, with built-in UI. Adds audio-only call mode, speaker/earpiece routing, scoped Android runtime permissions, and support for modern `react-native-agora` (including Android 16 KB page-size aligned native libraries).
 
-## Getting started
+> **Not affiliated with Agora.** This is an independent community fork, not published or endorsed by Agora Lab, Inc. It wraps the official [`react-native-agora`](https://www.npmjs.com/package/react-native-agora) SDK, which you install separately. For official support, see [Agora's documentation](https://docs.agora.io/).
 
-### Requirements
+## Why this fork
 
-- [An Agora developer account](https://www.agora.io/en/blog/how-to-get-started-with-agora?utm_source=github&utm_repo=ReactNative-UIKit) (it's free)
-- Android or iOS Device
-- React Native Project
+| | `agora-rn-uikit@5.0.2` | `react-native-agora-uikit` |
+|---|---|---|
+| Last release | Dec 2023 | actively maintained |
+| `react-native-agora` peer | `^4.1.0` | `>=4.5.2` |
+| Android 16 KB page size | ✗ (pre-4.5.2 native libs) | ✓ via `react-native-agora >= 4.5.2` |
+| Audio-only call mode | ✗ | ✓ `enableVideoOnHost: false` |
+| Speaker / earpiece toggle | ✗ | ✓ `<LocalSpeakerToggle />` |
+| Android permissions | camera + mic, always | only what the call mode needs |
+| RTM / signalling | ✓ | ✗ **removed — see below** |
 
-[Expo](https://expo.dev/) is supported using custom-dev-clients, for more information read this [blog post](https://www.agora.io/en/blog/building-a-video-calling-app-using-the-agora-sdk-on-expo-react-native/)
+## ⚠️ Read this before migrating from `agora-rn-uikit`
 
-### Installation
+**The RTM (signalling) layer is not implemented in this fork.** `RtmConfigure` and `RTMEngine` are no-op stubs so the package can be installed without `agora-react-native-rtm`. Concretely, the following **silently do nothing**:
 
-To a react-native application generated using react-native-cli, add the following:
+- remote usernames (`<Username />` renders nothing meaningful)
+- the remote mute *request* flow and its confirmation pop-up
+- `sendChannelMessage`, `sendPeerMessage`, `sendMuteRequest`
+- every `rtmCallbacks` handler — they are never invoked
 
+`rtmProps` and `rtmCallbacks` are still accepted so v5 call sites keep compiling, but they are marked `@deprecated` and have no effect. **If your app depends on RTM, stay on `agora-rn-uikit@5.0.2`.** Direct RTC-level mute/video controls are unaffected and work normally.
+
+## About the Android 16 KB claim
+
+This package contains no native code. 16 KB page-size alignment comes entirely from `react-native-agora`'s native `.so` files — this fork's contribution is requiring a peer version that ships them (`>=4.5.2`) instead of the stale `^4.1.0`, which resolves to unaligned binaries and fails Google Play's 16 KB requirement. Verified in production on React Native 0.79.2 with `react-native-agora@4.5.2`.
+
+## Install
+
+```sh
+npm i react-native-agora react-native-agora-uikit
+# or
+yarn add react-native-agora react-native-agora-uikit
 ```
-npm i react-native-agora agora-rn-uikit
-```
 
-### Usage
+Requires an [Agora developer account](https://www.agora.io/en/) (free), a physical Android or iOS device, and `react-native-agora >= 4.5.2`.
 
-This VideoUIKit is very simple to use and contains a high level component called `AgoraUIKit`. You can check out code explanation here.
+## Usage
 
-**A simple sample app integrating Agora UI Kit:**
+### Video call
 
-```javascript
-import React, { useState } from "react";
-import AgoraUIKit from "agora-rn-uikit";
+```jsx
+import React, {useState} from 'react';
+import {Text} from 'react-native';
+import AgoraUIKit from 'react-native-agora-uikit';
 
 const App = () => {
   const [videoCall, setVideoCall] = useState(true);
-  const connectionData = {
-    appId: "<Agora App ID>",
-    channel: "test",
-  };
-  const rtcCallbacks = {
-    EndCall: () => setVideoCall(false),
-  };
+  const connectionData = {appId: '<Agora App ID>', channel: 'test'};
+  const rtcCallbacks = {EndCall: () => setVideoCall(false)};
+
   return videoCall ? (
     <AgoraUIKit connectionData={connectionData} rtcCallbacks={rtcCallbacks} />
   ) : (
@@ -51,37 +67,59 @@ const App = () => {
 export default App;
 ```
 
-**Replace the `'<Agora App ID>'` with your own appID**.
+### Audio-only call
 
-If you created the Agora App in secured mode, you'll need to pass in an `rtcToken` to the `connectionData` prop. Alternatively, you can deploy the one-click [token server](https://github.com/AgoraIO-Community/agora-token-service) and pass in the `tokenUrl`; the UIKit will fetch and manage RTC tokens automatically.
+Set `enableVideoOnHost: false`. The video surface is skipped entirely, and the control bar swaps the camera buttons for a speaker toggle. Only `RECORD_AUDIO` is requested on Android — the camera permission is never asked for.
 
-### Demo Project
+```jsx
+<AgoraUIKit
+  connectionData={{appId: '<Agora App ID>', channel: 'test'}}
+  settings={{enableVideoOnHost: false}}
+  rtcCallbacks={{EndCall: () => setCall(false)}}
+/>
+```
 
-There's a React Native VideoUIKit demo [here](https://github.com/AgoraIO-Community/ReactNative-UIKit-example), and one with typescript [here](https://github.com/AgoraIO-Community/ReactNative-UIKit-example/tree/typescript).
+Audio calls start on the **earpiece**; video calls start on the **speaker**.
 
-### Instructions for running on Android:
+A standalone audio control bar is also exported if you're composing your own screen:
 
-1.  Connect your Android device to system with debugging on
-2.  Type `adb devices` to verify if the device is connected
-3.  Run `npm start` – This will start the development server
-4.  Open another terminal in the same folder
-5.  Run `npm run android` - This will deploy the app on the Android device. (Now, the app will connect our development server)
-6.  Note Android simulators are not recommended since they might not be able to access the camera and microphone.
+```jsx
+import {LocalControlsAudio} from 'react-native-agora-uikit/Components';
+```
 
-### Instructions for running on iOS:
+### Speaker toggle in a custom layout
 
-1.  Connect an iOS device to your Mac, create an apple developer account and register your device with apple for development.
-2.  Run `npx pod-install` to download the necessary pods.
-3.  Open the `.xcworkspace` file located in `ios` folder using XCode.
-4.  Open the info tab and add the following:
-    1.  **Privacy Camera description** - Camera permission
-    2.  **Privacy Microphone description** - Mic permission
-5.  Configure code signing: https://reactnative.dev/docs/running-on-device#2-configure-code-signing
-6.  Run the project by clicking the Run button in Xcode
-7.  Note Simulators won’t work since iOS simulator can’t access the camera
+```jsx
+import {LocalSpeakerToggle, LocalAudioMute, Endcall} from 'react-native-agora-uikit/Components';
 
-## Documentation
+<View style={{flexDirection: 'row'}}>
+  <LocalAudioMute />
+  <LocalSpeakerToggle btnText="Speaker" />
+  <Endcall />
+</View>
+```
 
-For full documentation, see our [docs page](https://agoraio-community.github.io/VideoUIKit-ReactNative/).
+Speaker state lives on the local user, so you can read it anywhere:
 
-You can visit the [wiki](https://github.com/AgoraIO-Community/VideoUIKit-ReactNative/wiki) for other examples and in depth guide.
+```jsx
+import {useContext} from 'react';
+import {ToggleState} from 'react-native-agora-uikit';
+import {LocalContext} from 'react-native-agora-uikit/Contexts';
+
+const {speaker} = useContext(LocalContext);
+const onSpeaker = speaker === ToggleState.enabled;
+```
+
+## Tokens
+
+For an App ID in secured mode, pass `rtcToken` in `connectionData`, or deploy the [token server](https://github.com/AgoraIO-Community/agora-token-service) and pass `tokenUrl` — tokens are then fetched and renewed automatically.
+
+## Platform setup
+
+**Android** — run on a physical device; emulators generally can't reach the camera or mic. Permissions are requested at runtime by the UIKit based on call mode.
+
+**iOS** — run `npx pod-install`, then add **Privacy - Camera Usage Description** (video calls only) and **Privacy - Microphone Usage Description** to `Info.plist`. The simulator has no camera, so use a real device.
+
+## Credits & license
+
+MIT. Originally built by [AgoraIO-Community](https://github.com/AgoraIO-Community/VideoUIKit-ReactNative) (Ekaansh Arora, Vineeth S); Agora's copyright is retained in [LICENSE](LICENSE). This is an independent community fork and is **not** an official Agora product.

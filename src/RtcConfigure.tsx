@@ -38,7 +38,6 @@ import {
 import Create from './Rtc/Create';
 import Join from './Rtc/Join';
 import {ClientRoleType} from 'react-native-agora';
-import LocalSpeakerToggle from 'agora-rn-uikit/src/Controls/Local/LocalSpeakerToggle';
 
 const RtcConfigure: React.FC<
   PropsWithChildren<Partial<RtcPropsInterface>>
@@ -73,8 +72,13 @@ const RtcConfigure: React.FC<
             ? ToggleState.disabled
             : ToggleState.enabled,
         streamType: 'high',
+        // Video calls route to the speaker by default, audio-only calls to the
+        // earpiece. `enableVideoOnHost` is undefined for a plain video call, so
+        // test against `false` explicitly (matches Create/LocalControls).
         speaker:
-          rtcProps.enableVideoOnHost? ToggleState.enabled : ToggleState.disabled,
+          rtcProps.enableVideoOnHost === false
+            ? ToggleState.disabled
+            : ToggleState.enabled,
       },
     ],
   };

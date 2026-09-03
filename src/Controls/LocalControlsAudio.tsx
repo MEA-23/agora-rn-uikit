@@ -3,18 +3,24 @@ import {View} from 'react-native';
 import styles from '../Style';
 import EndCall from './Local/EndCall';
 import LocalAudioMute from './Local/LocalAudioMute';
-import LocalVideoMute from './Local/LocalVideoMute';
-import SwitchCamera from './Local/SwitchCamera';
+import LocalSpeakerToggle from './Local/LocalSpeakerToggle';
 import RemoteControls from './RemoteControls';
 import {MaxUidConsumer} from '../Contexts/MaxUidContext';
 import PropsContext, {Layout} from '../Contexts/PropsContext';
 import {ClientRoleType} from 'react-native-agora';
 
 interface ControlsPropsInterface {
+  /**
+   * Render the remote controls row above the local controls. (default: true)
+   */
   showButton?: boolean;
 }
 
-const Controls: React.FC<ControlsPropsInterface> = (props) => {
+/**
+ * Control bar for audio-only calls: mute and speaker/earpiece routing, with no
+ * camera buttons. Use with `enableVideoOnHost: false`, or compose it yourself.
+ */
+const LocalControlsAudio: React.FC<ControlsPropsInterface> = props => {
   const {styleProps, rtcProps} = useContext(PropsContext);
   const {localBtnContainer} = styleProps || {};
   const showButton = props.showButton !== undefined ? props.showButton : true;
@@ -24,15 +30,14 @@ const Controls: React.FC<ControlsPropsInterface> = (props) => {
         {rtcProps.role !== ClientRoleType.ClientRoleAudience && (
           <>
             <LocalAudioMute />
-            {/* <LocalVideoMute />
-            <SwitchCamera /> */}
+            <LocalSpeakerToggle />
           </>
         )}
         <EndCall />
       </View>
       {showButton ? (
         <MaxUidConsumer>
-          {(users) => (
+          {users => (
             <View
               style={{
                 ...styles.Controls,
@@ -51,4 +56,4 @@ const Controls: React.FC<ControlsPropsInterface> = (props) => {
   );
 };
 
-export default Controls;
+export default LocalControlsAudio;

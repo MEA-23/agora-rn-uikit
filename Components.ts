@@ -6,6 +6,8 @@ import LocalAudioMute from "./src/Controls/Local/LocalAudioMute";
 import LocalVideoMute from "./src/Controls/Local/LocalVideoMute";
 import SwitchCamera from "./src/Controls/Local/SwitchCamera";
 import LocalControls from "./src/Controls/LocalControls";
+import LocalControlsAudio from "./src/Controls/LocalControlsAudio";
+import LocalSpeakerToggle from "./src/Controls/Local/LocalSpeakerToggle";
 import RemoteAudioMute from "./src/Controls/Remote/RemoteAudioMute";
 import RemoteSwap from "./src/Controls/Remote/RemoteSwap";
 import RemoteVideoMute from "./src/Controls/Remote/RemoteVideoMute";
@@ -27,6 +29,8 @@ export {
   LocalVideoMute,
   SwitchCamera,
   LocalControls,
+  LocalControlsAudio,
+  LocalSpeakerToggle,
   RemoteAudioMute,
   RemoteSwap,
   RemoteVideoMute,

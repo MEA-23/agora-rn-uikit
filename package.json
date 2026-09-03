@@ -1,50 +1,57 @@
 {
-  "name": "agora-rn-uikit",
-  "version": "5.0.2",
-  "author": {
-    "name": "Ekaansh Arora",
-    "email": "ekaansh@agora.io"
-  },
-  "main": "./index.ts",
-  "contributors": [
-    {
-      "name": "Vineeth S",
-      "email": "vineeth@agora.io"
-    }
-  ],
+  "name": "react-native-agora-uikit",
+  "version": "6.0.0",
+  "description": "Community fork of agora-rn-uikit. Video and audio calling for React Native with built-in UI, speaker/earpiece routing, and Android 16KB page-size support. Not affiliated with Agora.",
   "license": "MIT",
+  "author": "MEA-23 (https://github.com/MEA-23)",
+  "main": "./index.ts",
+  "types": "./index.ts",
   "files": [
     "Components.ts",
     "Contexts.ts",
     "index.ts",
-    "/src/**/*"
+    "src/**/*",
+    "LICENSE",
+    "README.md"
   ],
-  "description": "Agora react native UI KIT. Rapidly integrate video calling into your React Native application with built in UI Elements.",
+  "keywords": [
+    "agora",
+    "agora-rn-uikit",
+    "react-native",
+    "react-native-agora",
+    "video-call",
+    "audio-call",
+    "voice-call",
+    "webrtc",
+    "uikit",
+    "16kb",
+    "page-size"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/AgoraIO-Community/ReactNative-UIKit"
+    "url": "git+https://github.com/MEA-23/react-native-agora-uikit.git"
   },
   "bugs": {
-    "url": "https://github.com/AgoraIO-Community/ReactNative-UIKit/issues"
+    "url": "https://github.com/MEA-23/react-native-agora-uikit/issues"
   },
+  "homepage": "https://github.com/MEA-23/react-native-agora-uikit#readme",
   "peerDependencies": {
-    "react": "*",
-    "react-native": ">=0.62.2",
-    "react-native-agora": "^4.1.0"
+    "react": ">=17",
+    "react-native": ">=0.70",
+    "react-native-agora": ">=4.5.2"
   },
   "scripts": {
-    "docs": "typedoc  --entryPoints index.ts  --entryPoints Components.ts  --entryPoints Contexts.ts && cp 'UI Kit.png' './docs/UI Kit.png'"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx",
+    "docs": "typedoc --entryPoints index.ts --entryPoints Components.ts --entryPoints Contexts.ts"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.1.0",
-    "@tsconfig/react-native": "^2.0.2",
-    "@types/react": "^18.0.21",
-    "@types/react-native": "^0.70.6",
-    "@typescript-eslint/eslint-plugin": "^5.40.1",
-    "@typescript-eslint/parser": "^5.40.1",
+    "@tsconfig/react-native": "^3.0.5",
+    "@types/react": "^18.2.0",
     "eslint": "^8.25.0",
-    "typedoc": "^0.22.15",
-    "typedoc-plugin-missing-exports": "^0.22.6",
-    "typedoc-plugin-rename-defaults": "^0.6.4"
+    "prettier": "^2.8.8",
+    "typedoc": "^0.25.13",
+    "typescript": "^5.4.0"
   }
 }

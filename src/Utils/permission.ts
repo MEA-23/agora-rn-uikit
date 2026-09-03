@@ -1,25 +1,37 @@
-import {PermissionsAndroid} from 'react-native';
+import {PermissionsAndroid, Permission} from 'react-native';
 /**
  * @name requestCameraAndAudioPermission
- * @description Function to request permission for Audio and Camera
+ * @description Requests the Android runtime permissions the call actually needs.
+ * Audio-only calls never prompt for the camera.
+ * @param needsCamera Whether the call renders video. Defaults to true.
  */
-export default async function requestCameraAndAudioPermission() {
+export default async function requestCameraAndAudioPermission(
+  needsCamera: boolean = true,
+) {
   try {
-    const granted = await PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-    ]);
-    if (
-      granted['android.permission.RECORD_AUDIO'] ===
-        PermissionsAndroid.RESULTS.GRANTED &&
-      granted['android.permission.CAMERA'] ===
-        PermissionsAndroid.RESULTS.GRANTED
-    ) {
-      console.log('You can use the cameras & mic');
-    } else {
-      console.log('Permission denied');
+    const required: Permission[] = needsCamera
+      ? [
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        ]
+      : [PermissionsAndroid.PERMISSIONS.RECORD_AUDIO];
+
+    const granted = await PermissionsAndroid.requestMultiple(required);
+
+    const allGranted = required.every(
+      permission => granted[permission] === PermissionsAndroid.RESULTS.GRANTED,
+    );
+
+    if (!allGranted) {
+      console.warn(
+        `Permission denied: ${required
+          .filter(p => granted[p] !== PermissionsAndroid.RESULTS.GRANTED)
+          .join(', ')}`,
+      );
     }
+    return allGranted;
   } catch (err) {
     console.warn(err);
+    return false;
   }
 }
