@@ -1,6 +1,6 @@
 {
   "name": "react-native-agora-uikit",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "Community fork of agora-rn-uikit. Video and audio calling for React Native with built-in UI, speaker/earpiece routing, and Android 16KB page-size support. Not affiliated with Agora.",
   "license": "MIT",
   "author": "MEA-23 (https://github.com/MEA-23)",

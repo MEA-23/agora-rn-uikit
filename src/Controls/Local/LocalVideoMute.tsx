@@ -16,7 +16,7 @@ interface LocalVideoMuteProps {
 }
 
 const LocalVideoMute: React.FC<LocalVideoMuteProps> = (props) => {
-  const {btnText = 'Video', variant = 'Outlined'} = props;
+  const {btnText = 'Video', variant = 'outlined'} = props;
   const {styleProps} = useContext(PropsContext);
   const {localBtnStyles, remoteBtnStyles} = styleProps || {};
   const {muteLocalVideo} = localBtnStyles || {};
@@ -30,7 +30,7 @@ const LocalVideoMute: React.FC<LocalVideoMuteProps> = (props) => {
       btnText={btnText}
       style={{
         ...styles.localBtn,
-        ...(variant === 'Outlined'
+        ...(variant === 'outlined'
           ? (muteLocalVideo as object)
           : (muteRemoteVideo as object)),
       }}

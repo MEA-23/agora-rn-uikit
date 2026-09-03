@@ -15,7 +15,7 @@ interface LocalSpeakerToggleProps {
 }
 
 const LocalSpeakerToggle: React.FC<LocalSpeakerToggleProps> = (props) => {
-  const {btnText = 'Speaker', variant = 'Outlined'} = props;
+  const {btnText = 'Speaker', variant = 'outlined'} = props;
   const {styleProps} = useContext(PropsContext);
   const {localBtnStyles, remoteBtnStyles} = styleProps || {};
   const {muteLocalAudio} = localBtnStyles || {};
@@ -29,7 +29,7 @@ const LocalSpeakerToggle: React.FC<LocalSpeakerToggleProps> = (props) => {
       btnText={btnText}
       style={{
         ...styles.localBtn,
-        ...(variant === 'Outlined'
+        ...(variant === 'outlined'
           ? (muteLocalAudio as object)
           : (muteRemoteAudio as object)),
       }}

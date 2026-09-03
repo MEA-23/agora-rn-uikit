@@ -15,7 +15,7 @@ interface LocalAudioMuteProps {
 }
 
 const LocalAudioMute: React.FC<LocalAudioMuteProps> = (props) => {
-  const {btnText = 'Audio', variant = 'Outlined'} = props;
+  const {btnText = 'Audio', variant = 'outlined'} = props;
   const {styleProps} = useContext(PropsContext);
   const {localBtnStyles, remoteBtnStyles} = styleProps || {};
   const {muteLocalAudio} = localBtnStyles || {};
@@ -29,7 +29,7 @@ const LocalAudioMute: React.FC<LocalAudioMuteProps> = (props) => {
       btnText={btnText}
       style={{
         ...styles.localBtn,
-        ...(variant === 'Outlined'
+        ...(variant === 'outlined'
           ? (muteLocalAudio as object)
           : (muteRemoteAudio as object)),
       }}
